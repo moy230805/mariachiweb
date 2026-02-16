@@ -1,32 +1,25 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-// Importar AMBOS modelos
+// Importar modelos
 use App\Models\Cancion;
-use App\Models\Galeria;  // ← NUEVO: Importamos el modelo de Galeria
-
+use App\Models\Galeria;
 Route::get('/', function () {
-    // Obtener TODAS las canciones de la BD
+    // Obtener canciones de la BD
     $canciones = Cancion::all();
-    
-    // Obtener TODAS las imágenes de la BD ordenadas por 'orden'
+    // Obtener  imágenes de la BD ordenadas
     $imagenes = Galeria::orderBy('orden', 'asc')->get();
-    
     // Enviarlas a React
     return Inertia::render('Mariachi', [
         'canciones' => $canciones,
-        'imagenes' => $imagenes  // ← NUEVO: Enviamos las imágenes
+        'imagenes' => $imagenes  
     ]);
 });
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
