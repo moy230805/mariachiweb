@@ -1,10 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { Head } from '@inertiajs/react';
 
-export default function Mariachi({ canciones, imagenes }) {
-    console.log('Canciones desde la BD:', canciones);
-    console.log('Imágenes desde la BD:', imagenes);
-    // state para react
+export default function Mariachi({ canciones, imagenes, videos }) {
     const [expandedCategory, setExpandedCategory] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [showAlbumModal, setShowAlbumModal] = useState(false);
@@ -12,13 +9,26 @@ export default function Mariachi({ canciones, imagenes }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [videoActivo, setVideoActivo] = useState(null);
     const audioRef = useRef(null);
-    
+
+    const toEmbedUrl = (url) => {
+        try {
+            const u = new URL(url);
+            let id = null;
+            if (u.hostname.includes('youtube.com')) id = u.searchParams.get('v');
+            else if (u.hostname === 'youtu.be') id = u.pathname.slice(1);
+            return id ? `https://www.youtube.com/embed/${id}` : url;
+        } catch {
+            return url;
+        }
+    };
+
     // Reproducir una canción
     const playSong = (song) => {
         setCurrentSong(song);
         setIsPlaying(true);
-        
+
         // Delay para que el audio se cargue
         setTimeout(() => {
             if (audioRef.current) {
@@ -43,11 +53,11 @@ export default function Mariachi({ canciones, imagenes }) {
     // Ir a la canción anterior
     const previousSong = () => {
         if (!currentSong) return;
-        
+
         // Encontrar todas las canciones en orden
         const allSongs = categories.flatMap(cat => cat.songs);
         const currentIndex = allSongs.findIndex(song => song.id === currentSong.id);
-        
+
         if (currentIndex > 0) {
             playSong(allSongs[currentIndex - 1]);
         } else {
@@ -59,10 +69,10 @@ export default function Mariachi({ canciones, imagenes }) {
     // Ir a la siguiente canción
     const nextSong = () => {
         if (!currentSong) return;
-        
+
         const allSongs = categories.flatMap(cat => cat.songs);
         const currentIndex = allSongs.findIndex(song => song.id === currentSong.id);
-        
+
         if (currentIndex < allSongs.length - 1) {
             playSong(allSongs[currentIndex + 1]);
         } else {
@@ -105,7 +115,7 @@ export default function Mariachi({ canciones, imagenes }) {
         const clickPosition = e.nativeEvent.offsetX;
         const width = progressBar.offsetWidth;
         const newTime = (clickPosition / width) * duration;
-        
+
         if (audioRef.current) {
             audioRef.current.currentTime = newTime;
             setCurrentTime(newTime);
@@ -126,25 +136,31 @@ export default function Mariachi({ canciones, imagenes }) {
     Object.values(categoriesMap).forEach(cat => {
         categories.push(cat);
     });
-    console.log('Categorías organizadas:', categories);
+
     const galleryImages = imagenes || [];
     const toggleCategory = (categoryId) => {
         setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
     };
+
+    useEffect(() => {
+        if (videos?.length > 0) setVideoActivo(videos[0]);
+    }, []);
     return (
         <>
             <Head title="Mariachi Real Guadalajara" />
             <div className="min-h-screen bg-white">
+
+                {/*Titulo*/}
                 <section className="relative h-screen bg-black">
-                    <img 
-                        src="/images/1.jpg" 
+                    <img
+                        src="/images/1.jpg"
                         alt="Mariachi"
                         className="w-full h-full object-cover opacity-70"
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center text-white px-4">
                             <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider">
-                                MARIACHI REAL GUADALAJARA
+                                MARIACHI COLOMBIANO GUADALAJARA
                             </h1>
                             <p className="text-xl md:text-2xl mb-2">
                                 Nos distinguimos por ser los mejores
@@ -158,9 +174,12 @@ export default function Mariachi({ canciones, imagenes }) {
                         </div>
                     </div>
                 </section>
+
+                {/* Videos */}
                 <section className="bg-gradient-to-r from-gray-900 to-black text-white py-20 relative">
                     <div className="container mx-auto px-4">
                         <div className="grid md:grid-cols-2 gap-12 items-start">
+                            {/* Texto izquierda */}
                             <div className="pt-12">
                                 <h2 className="text-4xl font-bold mb-6">
                                     Videos de nuestro mariachi
@@ -169,38 +188,71 @@ export default function Mariachi({ canciones, imagenes }) {
                                     Uno de los mejores mariachis de Guadalajara
                                 </p>
                                 <p className="text-gray-300 mb-4 leading-relaxed">
-                                    Mira nuestras presentaciones en vivo y descubre por qué somos el mariachi 
-                                    preferido de Guadalajara. Con años de experiencia y un repertorio extenso, 
+                                    Mira nuestras presentaciones en vivo y descubre por qué somos el mariachi
+                                    preferido de Guadalajara. Con años de experiencia y un repertorio extenso,
                                     llevamos alegría y música tradicional a cada evento.
                                 </p>
                                 <p className="text-gray-300 mb-6">
-                                    Nuestro compromiso es hacer de tu celebración un momento inolvidable, 
+                                    Nuestro compromiso es hacer de tu celebración un momento inolvidable,
                                     con profesionalismo y la mejor calidad musical.
                                 </p>
                                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg flex items-center gap-2 transition">
                                     Comparar planes y precios →
                                 </button>
-                            </div>
-                            <div className="relative md:-mt-32">
-                                <div className="p-2 shadow-2xl transform hover:scale-105 transition duration-300">
-                                    <div className="relative rounded-xl overflow-hidden bg-black" style={{ paddingBottom: '56.25%' }}>
-                                        <iframe
-                                            className="absolute top-0 left-0 w-full h-full"
-                                            width="560" 
-                                            height="315" 
-                                            src="/video/v1.mp4" 
-                                            title="YouTube video player" 
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                            referrerPolicy="strict-origin-when-cross-origin" 
-                                            allowFullScreen
-                                        />
+
+                                {/* Miniaturas de otros videos */}
+                                {videos.length > 1 && (
+                                    <div className="flex gap-3 mt-8 flex-wrap">
+                                        {videos.map((v, i) => (
+                                            <button
+                                                key={v.id}
+                                                onClick={() => setVideoActivo(v)}
+                                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition border ${
+                                                    videoActivo?.id === v.id
+                                                        ? 'bg-yellow-400 text-black border-yellow-400'
+                                                        : 'bg-white/10 text-gray-300 border-white/20 hover:bg-white/20'
+                                                }`}
+                                            >
+                                                {i + 1}. {v.titulo}
+                                            </button>
+                                        ))}
                                     </div>
+                                )}
+                            </div>
+
+                            {/* Video derecha — flotante */}
+                            <div className="relative z-50 md:-mt-32">
+                                <div className="relative p-2 shadow-2xl shadow-black/60 transform hover:scale-105 transition duration-300 rounded-2xl bg-gradient-to-br from-white/10 to-transparent backdrop-blur-sm"
+                                     style={{ filter: 'drop-shadow(0 25px 50px rgba(0,0,0,0.8))' }}
+                                >
+                                    <div className="relative rounded-xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+                                        {videoActivo ? (
+                                            <iframe
+                                                key={videoActivo.id}
+                                                className="absolute top-0 left-0 w-full h-full"
+                                                src={toEmbedUrl(videoActivo.url)}
+                                                title={videoActivo.titulo}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                referrerPolicy="strict-origin-when-cross-origin"
+                                                allowFullScreen
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 flex items-center justify-center bg-gray-800 text-gray-400 text-sm">
+                                                Sin videos disponibles
+                                            </div>
+                                        )}
+                                    </div>
+                                    {videoActivo?.titulo && (
+                                        <p className="text-center text-sm text-gray-400 mt-2 pb-1">{videoActivo.titulo}</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
+
+                {/*Album*/}
                 <section className="bg-gradient-to-br from-indigo-900 to-purple-900 text-white py-20">
                     <div className="container mx-auto px-4">
                         <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
@@ -234,7 +286,7 @@ export default function Mariachi({ canciones, imagenes }) {
                         </div>
 
                         <div className="text-center">
-                            <button 
+                            <button
                                 onClick={() => setShowAlbumModal(true)}
                                 className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-4 rounded-lg text-lg font-semibold inline-flex items-center gap-2 transition"
                             >
@@ -295,14 +347,14 @@ export default function Mariachi({ canciones, imagenes }) {
                         >
                             ✕
                         </button>
-                        
+
                         <button
                             onClick={() => setSelectedImage((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)}
                             className="absolute left-6 text-white hover:text-gray-300 transition bg-black bg-opacity-50 p-2 rounded-full text-3xl"
                         >
                             ←
                         </button>
-                        
+
                         <div className="max-w-6xl max-h-full flex flex-col items-center">
                             <img
                                 src={galleryImages[selectedImage].url}
@@ -323,7 +375,7 @@ export default function Mariachi({ canciones, imagenes }) {
                                 </p>
                             </div>
                         </div>
-                        
+
                         <button
                             onClick={() => setSelectedImage((prev) => (prev + 1) % galleryImages.length)}
                             className="absolute right-6 text-white hover:text-gray-300 transition bg-black bg-opacity-50 p-2 rounded-full text-3xl"
@@ -332,6 +384,8 @@ export default function Mariachi({ canciones, imagenes }) {
                         </button>
                     </div>
                 )}
+
+                {/*Musica*/}
                 <section className="relative bg-gradient-to-b from-zinc-950 via-zinc-900 to-black text-white py-24 overflow-hidden">
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px]"></div>
                     <div className="container mx-auto px-4 relative z-10">
@@ -342,26 +396,26 @@ export default function Mariachi({ canciones, imagenes }) {
                                     NUESTRO REPERTORIO
                                 </span>
                             </div>
-                            
+
                             <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                                 <span className="bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent">
                                     Música para Cada Ocasión
                                 </span>
-                            </h2>                       
+                            </h2>
                             <p className="text-lg text-zinc-400 leading-relaxed">
-                                Explora nuestro extenso repertorio organizado por tipo de evento. 
+                                Explora nuestro extenso repertorio organizado por tipo de evento.
                                 Cada categoría incluye canciones cuidadosamente seleccionadas.
                             </p>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto mb-20">
                             {categories.map((category) => (
                                 <div key={category.id} className="group">
-                                    <div 
+                                    <div
                                         onClick={() => toggleCategory(category.id)}
                                         className={`
                                             relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500
-                                            ${expandedCategory === category.id 
-                                                ? 'bg-gradient-to-br from-amber-500/20 via-red-500/10 to-transparent ring-2 ring-amber-500/50 shadow-2xl shadow-amber-500/20' 
+                                            ${expandedCategory === category.id
+                                                ? 'bg-gradient-to-br from-amber-500/20 via-red-500/10 to-transparent ring-2 ring-amber-500/50 shadow-2xl shadow-amber-500/20'
                                                 : 'bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-white/20'
                                             }
                                         `}
@@ -373,8 +427,8 @@ export default function Mariachi({ canciones, imagenes }) {
                                                 <div className={`
                                                     w-14 h-14 rounded-xl flex items-center justify-center text-3xl
                                                     transition-all duration-300
-                                                    ${expandedCategory === category.id 
-                                                        ? 'bg-amber-500/20 backdrop-blur-sm scale-110' 
+                                                    ${expandedCategory === category.id
+                                                        ? 'bg-amber-500/20 backdrop-blur-sm scale-110'
                                                         : 'bg-white/5'
                                                     }
                                                 `}>
@@ -391,21 +445,21 @@ export default function Mariachi({ canciones, imagenes }) {
                                                     </span>
                                                 </div>
                                             </div>
-                                            
+
                                             {/* Título y descripción */}
                                             <h3 className="text-2xl font-bold mb-2 text-white">
                                                 {category.name}
                                             </h3>
-                                            
+
                                             {/* Indicador de expansión */}
                                             <div className="flex items-center gap-2 text-sm text-zinc-400 mt-4">
                                                 <span className="font-medium">
                                                     {expandedCategory === category.id ? 'Ocultar repertorio' : 'Ver repertorio completo'}
                                                 </span>
-                                                <svg 
+                                                <svg
                                                     className={`w-4 h-4 transition-transform duration-300 ${expandedCategory === category.id ? 'rotate-180' : ''}`}
-                                                    fill="none" 
-                                                    viewBox="0 0 24 24" 
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
                                                     stroke="currentColor"
                                                 >
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -443,13 +497,13 @@ export default function Mariachi({ canciones, imagenes }) {
                                                     {category.songs.map((song, index) => (
                                                         <div key={song.id}>
                                                             {/* Tarjeta de la canción */}
-                                                            <div 
+                                                            <div
                                                                 onClick={() => playSong(song)}
                                                                 className={`
                                                                     group/song flex items-center gap-4 p-4 rounded-xl
                                                                     transition-all duration-300 cursor-pointer
-                                                                    ${currentSong?.id === song.id 
-                                                                        ? 'bg-amber-500/10 border border-amber-500/30' 
+                                                                    ${currentSong?.id === song.id
+                                                                        ? 'bg-amber-500/10 border border-amber-500/30'
                                                                         : 'hover:bg-white/5 border border-transparent hover:border-white/10'
                                                                     }
                                                                 `}
@@ -519,7 +573,7 @@ export default function Mariachi({ canciones, imagenes }) {
                                                                                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-lg"></div>
                                                                                 </div>
                                                                             </div>
-                                                                            
+
                                                                             <span className="text-xs text-zinc-400 font-mono min-w-[45px]">
                                                                                 {formatTime(duration)}
                                                                             </span>
@@ -592,7 +646,7 @@ export default function Mariachi({ canciones, imagenes }) {
                                 <p className="text-zinc-400 mb-6">
                                     Solicita una cotización personalizada y recibe una respuesta en menos de 24 horas.
                                 </p>
-                                
+
                                 <button className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 rounded-full font-semibold text-white shadow-lg hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
                                     <span>Solicitar Cotización</span>
                                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -626,7 +680,7 @@ export default function Mariachi({ canciones, imagenes }) {
                                 </h3>
                                 <p className="text-gray-400">Los mejores mariachis de Guadalajara</p>
                             </div>
-                            
+
                             <div>
                                 <h4 className="font-bold mb-4 text-lg">Contacto</h4>
                                 <div className="space-y-3 text-gray-400">
@@ -635,7 +689,7 @@ export default function Mariachi({ canciones, imagenes }) {
                                     <p>📍 Guadalajara, Jalisco, México</p>
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <h4 className="font-bold mb-4 text-lg">Síguenos</h4>
                                 <div className="flex gap-4">
@@ -651,7 +705,7 @@ export default function Mariachi({ canciones, imagenes }) {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
                             <p>&copy; 2026 Mariachi Real Guadalajara. Todos los derechos reservados.</p>
                         </div>

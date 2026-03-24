@@ -28,7 +28,34 @@ export default function AuthenticatedLayout({ header, children }) {
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
-                                    Dashboard
+                                    Principal
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('admin.canciones.index')}
+                                    active={route().current('admin.canciones.index')}
+                                >
+                                    🎵 Canciones
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('admin.galeria.index')}
+                                    active={route().current('admin.galeria.index')}
+                                >
+                                    🖼️ Galería
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('admin.videos.index')}
+                                    active={route().current('admin.videos.index')}
+                                >
+                                    🎬 Videos
                                 </NavLink>
                             </div>
                         </div>

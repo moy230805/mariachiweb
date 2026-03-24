@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('url');
+            $table->string('descripcion')->nullable();
             $table->integer('orden')->default(0);
         });
     }

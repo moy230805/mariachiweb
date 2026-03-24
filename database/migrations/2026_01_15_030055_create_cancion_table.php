@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('artista');
             $table->string('categoria');
             $table->string('url');
+            $table->string('tipo_url')->default('link');
         });
     }
 

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Galeria extends Model
 {
     protected $table = 'galeria';
-    protected $fillable = ['id', 'titulo', 'url', 'orden'];
+    protected $fillable = ['titulo', 'url', 'descripcion', 'orden'];
     public $timestamps = false;
 }
