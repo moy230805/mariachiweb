@@ -146,7 +146,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                         src="/images/imagenFondo.png"
                         alt="Mariachi"
                         className="w-full h-auto md:h-screen md:object-cover"
-                        style={{opacity: 0.45}}
+                        // style={{opacity: 0.45}}
                     />
 
                     {/* Overlay degradado dramático */}
