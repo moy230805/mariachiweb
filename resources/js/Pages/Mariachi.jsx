@@ -12,7 +12,6 @@ export default function Mariachi({canciones, imagenes, videos}) {
     const [videoActivo, setVideoActivo] = useState(null);
     const [videoIndex, setVideoIndex] = useState(0);
     const [showThumbs, setShowThumbs] = useState(true);
-    const [fade, setFade] = useState(true);
     const audioRef = useRef(null);
 
     const toEmbedUrl = (url) => {
@@ -206,25 +205,25 @@ export default function Mariachi({canciones, imagenes, videos}) {
                 <div className="w-full max-w-[2560px] aspect-[16/9] bg-white">
 
                     {/*Titulo*/}
-                    <section className="relative h-screen bg-black">
+                    <section className="relative bg-black">
                         <img
                             src="/images/imagenFondo.png"
                             alt="Mariachi"
-                            className="w-full h-full object-cover opacity-70"
+                            className="w-full h-auto md:h-screen md:object-cover opacity-70"
                         />
 
                         {/* Overlay contenido central */}
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="text-center text-white px-6">
-                                <h1 className="text-6xl md:text-8xl font-extrabold mb-6 tracking-wide">
+                                <h1 className="text-4xl sm:text-5xl md:text-8xl font-extrabold mb-6 tracking-wide">
                                     MARIACHI COLOMBIA SHOW
                                 </h1>
 
-                                <p className="text-3xl md:text-4xl mb-3 font-medium">
+                                <p className="text-xl sm:text-2xl md:text-4xl mb-3 font-medium">
                                     Nos distinguimos como uno de los mejores
                                 </p>
 
-                                <p className="text-2xl md:text-3xl opacity-90">
+                                <p className="text-lg sm:text-xl md:text-3xl opacity-90">
                                     mariachis en Guadalajara
                                 </p>
                             </div>
@@ -233,10 +232,10 @@ export default function Mariachi({canciones, imagenes, videos}) {
                         {/* Caja contacto */}
                         <div className="absolute bottom-6 left-6">
                             <div className="bg-black/60 backdrop-blur-md text-white px-6 py-4 rounded-xl shadow-lg border border-white/20">
-                                <p className="text-sm uppercase tracking-widest opacity-80">
+                                <p className="text-xs sm:text-sm uppercase tracking-widest opacity-80">
                                     Contáctanos
                                 </p>
-                                <p className="text-lg md:text-xl font-semibold">
+                                <p className="text-base sm:text-lg md:text-xl font-semibold">
                                     (33) 3949 0021
                                 </p>
                             </div>
