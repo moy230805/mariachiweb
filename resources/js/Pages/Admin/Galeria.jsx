@@ -43,6 +43,7 @@ export default function Galeria({ imagenes }) {
     };
 
     const eliminar = (id) => {
+        console.log(id)
         if (confirm('¿Eliminar esta imagen?')) router.delete(route('admin.galeria.destroy', id));
     };
 

@@ -65,10 +65,10 @@ class GaleriaController extends Controller
         return redirect()->route('admin.galeria.index');
     }
 
-    public function destroy(Galeria $galeria)
+    public function destroy(Galeria $galerium)
     {
-        $this->borrarArchivo($galeria->url);
-        $galeria->delete();
+        $this->borrarArchivo($galerium->url);
+        $galerium->delete();
         return redirect()->route('admin.galeria.index');
     }
 

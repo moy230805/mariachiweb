@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Caudex';
+    src: url('/fonts/Caudex/Caudex-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Caudex';
+    src: url('/fonts/Caudex/Caudex-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Caudex';
+    src: url('/fonts/Caudex/Caudex-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@layer base {
+    body {
+        font-family: 'Caudex', serif;
+    }
+}
