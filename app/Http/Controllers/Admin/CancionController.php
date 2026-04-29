@@ -35,7 +35,7 @@ class CancionController extends Controller
             $url  = Storage::disk('public')->url($path);
         }
 
-        Cancion::create([...$request->only('nombre', 'artista', 'categoria', 'tipo_url'), 'url' => $url]);
+        Cancion::create([...$request->only('nombre', 'artista', 'categoria', 'tipo_url', 'emoji'), 'url' => $url]);
 
         return redirect()->route('admin.canciones.index');
     }
@@ -49,6 +49,7 @@ class CancionController extends Controller
             'tipo_url' => 'required|in:link,archivo',
             'url'      => 'required_if:tipo_url,link|nullable|url',
             'archivo'  => 'nullable|file|mimes:mp3,wav,ogg,m4a|max:51200',
+            'emoji' => 'nullable|string|max:1'
         ]);
 
         $url = $cancion->url;
@@ -62,7 +63,7 @@ class CancionController extends Controller
             $url  = Storage::disk('public')->url($path);
         }
 
-        $cancion->update([...$request->only('nombre', 'artista', 'categoria', 'tipo_url'), 'url' => $url]);
+        $cancion->update([...$request->only('nombre', 'artista', 'categoria', 'tipo_url', 'emoji'), 'url' => $url]);
 
         return redirect()->route('admin.canciones.index');
     }

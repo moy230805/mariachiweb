@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('categoria');
             $table->string('url');
             $table->string('tipo_url')->default('link');
+            $table->string('emoji', 10)->default('❤️');
         });
     }
 
