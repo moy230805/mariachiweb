@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {Head} from '@inertiajs/react';
 
-export default function Mariachi({canciones, imagenes, videos}) {
+export default function Mariachi({canciones, imagenes, videos, heroImage}) {
     const [expandedCategory, setExpandedCategory] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [showAlbumModal, setShowAlbumModal] = useState(false);
@@ -81,7 +81,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                 />
                 <meta
                     property="og:image"
-                    content="https://mariachicolombiashow.com/images/imagenFondo.png"
+                    content={`https://mariachicolombiashow.com${heroImage}`}
                 />
             </Head>
 
@@ -132,7 +132,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                     />
 
                     <img
-                        src="/images/imagenFondo.png"
+                        src={`${heroImage}?v=${Date.now()}`}
                         alt="Integrantes de Mariachi Colombia Show en Guadalajara"
                         className="w-full h-full object-cover absolute inset-0"
                     />

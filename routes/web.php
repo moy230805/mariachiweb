@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CancionController;
 use App\Http\Controllers\Admin\GaleriaController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 use Inertia\Inertia;
@@ -26,6 +27,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('canciones', CancionController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('galeria', GaleriaController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('videos', VideoController::class)->only(['index', 'store', 'update', 'destroy']);
+
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('settings/hero', [SettingsController::class, 'updateHero'])->name('settings.hero.update');
 });
 
 require __DIR__.'/auth.php';
