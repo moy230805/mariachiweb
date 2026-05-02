@@ -2,22 +2,30 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm, router} from '@inertiajs/react';
 import {useState} from 'react';
 
-export default function Canciones({canciones}) {
+export default function Canciones({canciones, categorias}) {
     const [showModal, setShowModal] = useState(false);
     const [editando, setEditando] = useState(null);
+    const [nuevaCategoria, setNuevaCategoria] = useState(false);
+    const [openCategorias, setOpenCategorias] = useState([]);
 
     const {data, setData, post, processing, errors, reset} = useForm({
-        nombre: '', artista: '', categoria: '', tipo_url: 'link', url: '', archivo: null, emoji: '',
+        nombre: '', artista: '', categoria: '', tipo_url: 'link', url: '', archivo: null, emoji: '🎵',
     });
 
     const abrirCrear = () => {
         reset();
+        setData('emoji', '🎵');
         setEditando(null);
         setShowModal(true);
     };
 
     const abrirEditar = (c) => {
         setEditando(c);
+
+        const existe = categorias.includes(c.categoria);
+
+        setNuevaCategoria(!existe);
+
         setData({
             nombre: c.nombre,
             artista: c.artista,
@@ -27,13 +35,31 @@ export default function Canciones({canciones}) {
             archivo: null,
             emoji: c.emoji ?? ''
         });
+
         setShowModal(true);
+    };
+
+    const toggle = (cat) => {
+        setOpenCategorias(prev =>
+            prev.includes(cat)
+                ? prev.filter(c => c !== cat)
+                : [...prev, cat]
+        );
     };
 
     const guardar = (e) => {
         e.preventDefault();
+
+        const payload = {
+            ...data,
+            emoji: data.emoji || '🎵'
+        };
+
         if (editando) {
-            router.post(route('admin.canciones.update', editando.id), {...data, _method: 'PUT'}, {
+            router.post(route('admin.canciones.update', editando.id), {
+                ...payload,
+                _method: 'PUT'
+            }, {
                 forceFormData: true,
                 onSuccess: () => {
                     setShowModal(false);
@@ -42,6 +68,7 @@ export default function Canciones({canciones}) {
             });
         } else {
             post(route('admin.canciones.store'), {
+                ...payload,
                 forceFormData: true,
                 onSuccess: () => {
                     setShowModal(false);
@@ -54,6 +81,12 @@ export default function Canciones({canciones}) {
     const eliminar = (id) => {
         if (confirm('¿Eliminar esta canción?')) router.delete(route('admin.canciones.destroy', id));
     };
+
+    const cancionesPorCategoria = canciones.reduce((acc, c) => {
+        if (!acc[c.categoria]) acc[c.categoria] = [];
+        acc[c.categoria].push(c);
+        return acc;
+    }, {});
 
     return (
         <AuthenticatedLayout header={<h2 className="text-xl font-semibold text-gray-800">Canciones</h2>}>
@@ -70,47 +103,72 @@ export default function Canciones({canciones}) {
                         </div>
 
                         <div className="overflow-x-auto">
-                            <table className="w-full text-sm text-left">
-                                <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
-                                <tr>
-                                    <th className="py-3 px-4">Nombre</th>
-                                    <th className="py-3 px-4">Artista</th>
-                                    <th className="py-3 px-4">Categoría</th>
-                                    <th className="py-3 px-4">Tipo</th>
-                                    <th className="py-3 px-4">Acciones</th>
-                                </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                {canciones.length === 0 && (
-                                    <tr>
-                                        <td colSpan={5} className="py-8 text-center text-gray-400">Sin canciones
-                                            registradas
-                                        </td>
-                                    </tr>
-                                )}
-                                {canciones.map((c) => (
-                                    <tr key={c.id} className="hover:bg-gray-50">
-                                        <td className="py-3 px-4 font-medium text-gray-900">{c.nombre}</td>
-                                        <td className="py-3 px-4 text-gray-600">{c.artista}</td>
-                                        <td className="py-3 px-4 text-gray-600">{c.categoria}</td>
-                                        <td className="py-3 px-4">
-                                                <span
-                                                    className={`px-2 py-1 rounded-full text-xs font-medium ${c.tipo_url === 'archivo' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
-                                                    {c.tipo_url === 'archivo' ? '📁 Archivo' : '🔗 Link'}
+                            <div className="space-y-3">
+                                {Object.entries(cancionesPorCategoria).map(([categoria, items]) => {
+                                    const abierto = openCategorias.includes(categoria);
+
+                                    return (
+                                        <div key={categoria} className="border rounded-lg overflow-hidden">
+
+                                            {/* HEADER */}
+                                            <button
+                                                onClick={() => toggle(categoria)}
+                                                className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200"
+                                            >
+                                                <span className="font-semibold text-gray-700">
+                                                    {categoria} ({items.length})
                                                 </span>
-                                        </td>
-                                        <td className="py-3 px-4 flex gap-3">
-                                            <button onClick={() => abrirEditar(c)}
-                                                    className="text-blue-600 hover:text-blue-800 font-medium">Editar
+                                                <span>{abierto ? '▲' : '▼'}</span>
                                             </button>
-                                            <button onClick={() => eliminar(c.id)}
-                                                    className="text-red-500 hover:text-red-700 font-medium">Eliminar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+
+                                            {/* BODY */}
+                                            {abierto && (
+                                                <div className="divide-y">
+                                                    {items.map((c) => (
+                                                        <div key={c.id} className="flex justify-between items-center px-4 py-3 hover:bg-gray-50">
+
+                                                            <div>
+                                                                <div className="font-medium text-gray-900 flex items-center gap-2">
+                                                                    <span>{c.emoji ?? '🎵'}</span>
+                                                                    {c.nombre}
+                                                                </div>
+                                                                <div className="text-sm text-gray-500">
+                                                                    {c.artista}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="flex items-center gap-4">
+                                                                <span className={`text-xs px-2 py-1 rounded-full ${
+                                                                    c.tipo_url === 'archivo'
+                                                                        ? 'bg-green-100 text-green-700'
+                                                                        : 'bg-blue-100 text-blue-700'
+                                                                }`}>
+                                                                    {c.tipo_url === 'archivo' ? 'Archivo' : 'Link'}
+                                                                </span>
+
+                                                                <button
+                                                                    onClick={() => abrirEditar(c)}
+                                                                    className="text-blue-600 hover:text-blue-800 text-sm"
+                                                                >
+                                                                    Editar
+                                                                </button>
+
+                                                                <button
+                                                                    onClick={() => eliminar(c.id)}
+                                                                    className="text-red-500 hover:text-red-700 text-sm"
+                                                                >
+                                                                    Eliminar
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -124,7 +182,7 @@ export default function Canciones({canciones}) {
                             {editando ? 'Editar Canción' : 'Nueva Canción'}
                         </h3>
                         <form onSubmit={guardar} className="space-y-4">
-                            {[['nombre', 'Nombre'], ['artista', 'Artista'], ['categoria', 'Categoría']].map(([field, label]) => (
+                            {[['nombre', 'Nombre'], ['artista', 'Artista']].map(([field, label]) => (
                                 <div key={field}>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
                                     <input
@@ -139,12 +197,69 @@ export default function Canciones({canciones}) {
                             ))}
 
                             <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+
+                                {!nuevaCategoria ? (
+                                    <select
+                                        value={data.categoria}
+                                        onChange={e => {
+                                            if (e.target.value === '__new__') {
+                                                setNuevaCategoria(true);
+                                                setData('categoria', '');
+                                            } else {
+                                                setData('categoria', e.target.value);
+                                            }
+                                        }}
+                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        required
+                                    >
+                                        <option value="">Selecciona una categoría</option>
+
+                                        {categorias.map((cat, i) => (
+                                            <option key={i} value={cat}>{cat}</option>
+                                        ))}
+
+                                        <option value="__new__">+ Crear nueva categoría</option>
+                                    </select>
+                                ) : (
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={data.categoria}
+                                            onChange={e => setData('categoria', e.target.value)}
+                                            placeholder="Nueva categoría"
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setNuevaCategoria(false)}
+                                            className="px-3 py-2 text-sm bg-gray-200 rounded-lg"
+                                        >
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                )}
+
+                                {errors.categoria && <p className="text-red-500 text-xs mt-1">{errors.categoria}</p>}
+                            </div>
+
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Emoji</label>
                                 <input
                                     type="text"
                                     value={data.emoji}
-                                    onChange={e => setData('emoji', e.target.value)}
-                                    maxLength={2}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const regex = /\p{Extended_Pictographic}/u;
+
+                                        if (regex.test(value)) {
+                                            const match = value.match(regex);
+                                            setData('emoji', match[0]);
+                                        } else if (value === '') {
+                                            setData('emoji', '');
+                                        }
+                                    }}
                                     className="w-full border border-gray-300 rounded-lg px-3 py-2"
                                     placeholder="🎵"
                                 />

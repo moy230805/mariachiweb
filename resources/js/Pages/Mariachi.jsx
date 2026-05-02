@@ -181,7 +181,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                                     className="text-lg sm:text-xl md:text-2xl font-light tracking-widest"
                                     style={{color: 'rgba(232,196,106,0.75)'}}
                                 >
-                                    mariachis en Guadalajara
+                                    Mariachis en Guadalajara
                                 </p>
                             </div>
 
@@ -695,7 +695,6 @@ export default function Mariachi({canciones, imagenes, videos}) {
                             </p>
                         </div>
 
-                        {/* Categorías */}
                         {/* Categorías — discos de vinilo */}
                         <div className="flex flex-wrap justify-center gap-10 max-w-4xl mx-auto mb-6">
                             {categories.map((category) => {
@@ -735,7 +734,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                                                 ))}
                                                 {/* Etiqueta central */}
                                                 <div
-                                                    className="relative z-10 w-14 h-14 rounded-full flex flex-col items-center justify-center"
+                                                    className="relative z-10 w-16 h-16 rounded-full flex flex-col items-center justify-center"
                                                     style={{
                                                         background: isActive
                                                             ? 'radial-gradient(circle, #C9963B, #7B5210)'
@@ -743,13 +742,10 @@ export default function Mariachi({canciones, imagenes, videos}) {
                                                         border: '1px solid rgba(201,150,59,0.4)',
                                                         boxShadow: isActive ? '0 0 16px rgba(201,150,59,0.6)' : 'none',
                                                     }}>
-                            <span className="text-xl leading-none">
-                                {category.songs[0]?.emoji || '🎵'}
-                            </span>
+                                                    <span className="text-3xl leading-none select-none">
+                                                        {category.songs[0]?.emoji || '🎵'}
+                                                    </span>
                                                 </div>
-                                                {/* Punto central */}
-                                                <div className="absolute w-2 h-2 rounded-full z-20"
-                                                     style={{background: isActive ? '#E8C46A' : '#3a2d10'}}/>
                                             </div>
                                         </div>
                                         {/* Nombre */}
