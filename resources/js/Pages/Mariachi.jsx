@@ -66,12 +66,23 @@ export default function Mariachi({canciones, imagenes, videos}) {
 
     return (
         <>
-            <Head title="Mariachi Colombia Show">
-                <link rel="preconnect" href="https://fonts.googleapis.com"/>
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap"
-                    rel="stylesheet"/>
+            <Head>
+                <title>Mariachi en Guadalajara para Serenatas y Eventos</title>
+
+                <meta
+                    name="description"
+                    content="Mariachi Colombia Show en Guadalajara. Contrata serenatas, cumpleaños, bodas y eventos con música en vivo. Atención inmediata por WhatsApp o llamada."
+                />
+
+                <meta property="og:title" content="Mariachi Colombia Show en Guadalajara" />
+                <meta
+                    property="og:description"
+                    content="Serenatas y eventos con mariachi colombiano en Guadalajara. Atención inmediata."
+                />
+                <meta
+                    property="og:image"
+                    content="https://mariachicolombiashow.com/images/imagenFondo.png"
+                />
             </Head>
 
             {/* Botones sticky */}
@@ -122,7 +133,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
 
                     <img
                         src="/images/imagenFondo.png"
-                        alt="Mariachi"
+                        alt="Integrantes de Mariachi Colombia Show en Guadalajara"
                         className="w-full h-full object-cover absolute inset-0"
                     />
 
@@ -150,7 +161,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                                          style={{background: 'linear-gradient(90deg, #C9963B, transparent)'}}/>
                                 </div>
 
-                                <h1
+                                <h2
                                     className="font-black mb-4 tracking-widest uppercase"
                                     style={{
                                         fontFamily: "'Cinzel', serif",
@@ -160,7 +171,7 @@ export default function Mariachi({canciones, imagenes, videos}) {
                                     }}
                                 >
                                     MARIACHI COLOMBIA SHOW
-                                </h1>
+                                </h2>
 
                                 <div className="flex items-center justify-center gap-4 my-5">
                                     <div className="h-px w-12 md:w-24"

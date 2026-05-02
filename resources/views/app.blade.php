@@ -3,8 +3,17 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Mariachi Colombia Show en Guadalajara. Contrata serenatas, cumpleaños y eventos con música en vivo. Atención inmediata por WhatsApp o llamada.">
+        <meta name="keywords" content="Mariachi Colombia Show, mariachi colombiano Guadalajara, serenata mariachi Guadalajara, contratar mariachi Guadalajara, mariachi para eventos">
+        <meta name="author" content="Mariachi Colombia Show">
+        <meta property="og:title" content="Mariachi Colombia Show | Mariachi Colombiano en Guadalajara">
+        <meta property="og:description" content="Contrata Mariachi Colombia Show para serenatas y eventos en Guadalajara. Música en vivo profesional con atención inmediata.">
+        <meta property="og:image" content="https://mariachicolombiashow.com/images/imagenFondo.png">
+        <meta property="og:type" content="website">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="{{ url()->current() }}">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title inertia>{{ config('app.name', 'Mariachi Colombia Show') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
