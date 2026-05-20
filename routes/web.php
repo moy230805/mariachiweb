@@ -13,8 +13,15 @@ use App\Models\Cancion;
 use App\Models\Galeria;
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'counts' => [
+            'canciones' => Cancion::count(),
+            'galeria'   => Galeria::count(),
+            'videos'    => \App\Models\Video::count(),
+        ],
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

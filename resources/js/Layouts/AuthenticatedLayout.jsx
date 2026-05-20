@@ -164,12 +164,38 @@ export default function AuthenticatedLayout({ header, children }) {
                     }
                 >
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
+                        <div className="space-y-1 pb-3 pt-2">
+                            <ResponsiveNavLink
+                                href={route('dashboard')}
+                                active={route().current('dashboard')}
+                            >
+                                Principal
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route('admin.canciones.index')}
+                                active={route().current('admin.canciones.index')}
+                            >
+                                🎵 Canciones
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route('admin.galeria.index')}
+                                active={route().current('admin.galeria.index')}
+                            >
+                                🖼️ Galería
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route('admin.videos.index')}
+                                active={route().current('admin.videos.index')}
+                            >
+                                🎬 Videos
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                href={route('admin.settings.index')}
+                                active={route().current('admin.settings.index')}
+                            >
+                                ⚙️ Configuración
+                            </ResponsiveNavLink>
+                        </div>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
