@@ -9,6 +9,7 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
     const [videoActivo, setVideoActivo] = useState(null);
     const [videoIndex, setVideoIndex] = useState(0);
     const [showThumbs, setShowThumbs] = useState(true);
+    const activePanelRef = useRef(null);
 
     const toEmbedUrl = (url) => {
         try {
@@ -63,6 +64,18 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
             setVideoIndex(0);
         }
     }, [videos]);
+
+    useEffect(() => {
+        if (expandedCategory !== null && activePanelRef.current) {
+            setTimeout(() => {
+                activePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+        }
+    }, [expandedCategory]);
+
+    const sortedCategories = expandedCategory
+        ? [...categories.filter(c => c.id !== expandedCategory), categories.find(c => c.id === expandedCategory)].filter(Boolean)
+        : categories;
 
     return (
         <>
@@ -708,7 +721,7 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
 
                         {/* Categorías — discos de vinilo */}
                         <div className="flex flex-wrap justify-center gap-10 max-w-4xl mx-auto mb-6">
-                            {categories.map((category) => {
+                            {sortedCategories.map((category) => {
                                 const isActive = expandedCategory === category.id;
                                 return (
                                     <div key={category.id}
@@ -778,9 +791,10 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                         </div>
 
                         {/* Panel de canciones — panel full width debajo de los discos */}
-                        {categories.map((category) =>
+                        {sortedCategories.map((category) =>
                                 expandedCategory === category.id && (
                                     <div key={category.id}
+                                         ref={activePanelRef}
                                          className="max-w-4xl mx-auto mb-20 animate-fadeIn"
                                          style={{
                                              background: 'linear-gradient(135deg, #0D0A07, #080604)',
@@ -788,24 +802,14 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                                              borderRadius: '4px',
                                          }}>
                                         {/* Header del panel */}
-                                        <div className="flex items-center gap-3 px-6 py-4 border-b"
+                                        <div className="flex items-center gap-3 px-6 py-3 border-b"
                                              style={{borderColor: 'rgba(201,150,59,0.15)'}}>
-                                            <div className="w-9 h-9 rounded flex items-center justify-center"
-                                                 style={{background: 'linear-gradient(135deg, #C9963B, #8B6914)'}}>
-                                                <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path
-                                                        d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h4 className="text-base font-bold"
-                                                    style={{fontFamily: "'Cinzel', serif", color: '#E8C46A'}}>
-                                                    {category.name}
-                                                </h4>
-                                                <p className="text-xs font-light" style={{color: 'rgba(201,150,59,0.6)'}}>
-                                                    {category.songs.length} canciones disponibles
-                                                </p>
-                                            </div>
+                                            <div className="flex-1 h-px" style={{background: 'linear-gradient(90deg, rgba(201,150,59,0.4), transparent)'}}/>
+                                            <span className="text-xs tracking-widest uppercase font-light"
+                                                  style={{color: 'rgba(201,150,59,0.5)', fontFamily: "'Cinzel', serif"}}>
+                                                {category.songs.length} canciones disponibles
+                                            </span>
+                                            <div className="flex-1 h-px" style={{background: 'linear-gradient(90deg, transparent, rgba(201,150,59,0.4))'}}/>
                                         </div>
 
                                         <div className="p-4 space-y-2">
