@@ -15,6 +15,32 @@
 
         <title inertia>{{ config('app.name', 'Mariachi Colombia Show') }}</title>
 
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "MusicGroup",
+            "name": "Mariachi Colombia Show",
+            "image": "https://mariachicolombiashow.com/images/imagenFondo.png",
+            "url": "https://mariachicolombiashow.com",
+            "telephone": "+523339490021",
+            "email": "contacto@mariachiguadalajara.com",
+            "priceRange": "$$",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Guadalajara",
+                "addressRegion": "Jalisco",
+                "addressCountry": "MX"
+            },
+            "areaServed": [
+                "Guadalajara",
+                "Zapopan",
+                "Tlaquepaque",
+                "Tonalá"
+            ],
+            "description": "Mariachi Colombia Show ofrece serenatas, bodas, cumpleaños, XV años y eventos con mariachi en vivo en Guadalajara y zona metropolitana."
+        }
+        </script>
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

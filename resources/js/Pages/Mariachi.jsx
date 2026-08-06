@@ -174,7 +174,7 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                                          style={{background: 'linear-gradient(90deg, #C9963B, transparent)'}}/>
                                 </div>
 
-                                <h2
+                                <h1
                                     className="font-black mb-4 tracking-widest uppercase"
                                     style={{
                                         fontFamily: "'Cinzel', serif",
@@ -183,8 +183,8 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                                         textShadow: '0 4px 40px rgba(201,150,59,0.3)',
                                     }}
                                 >
-                                    MARIACHI COLOMBIA SHOW
-                                </h2>
+                                    Mariachi Colombia Show en Guadalajara
+                                </h1>
 
                                 <div className="flex items-center justify-center gap-4 my-5">
                                     <div className="h-px w-12 md:w-24"
@@ -273,6 +273,99 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                         }}
                     />
                 </section>
+
+                {/* ══════════════════════ SERVICIOS ══════════════════════ */}
+                <section
+                    className="text-white py-20 relative z-30"
+                    style={{background: 'linear-gradient(135deg, #080604 0%, #0D0B06 50%, #080604 100%)'}}
+                >
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="text-center max-w-3xl mx-auto mb-14">
+                            <div className="flex items-center justify-center gap-4 mb-4">
+                                <div className="h-px w-20"
+                                     style={{background: 'linear-gradient(90deg, transparent, #C9963B)'}}/>
+                                <span style={{color: '#C9963B'}}>✦</span>
+                                <div className="h-px w-20"
+                                     style={{background: 'linear-gradient(90deg, #C9963B, transparent)'}}/>
+                            </div>
+                            <h2 className="font-bold mb-4" style={{
+                                fontFamily: "'Cinzel', serif",
+                                fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+                                color: '#E8C46A'
+                            }}>
+                                Contrata Mariachi en Guadalajara para Cualquier Evento
+                            </h2>
+                            <p className="font-light leading-relaxed" style={{color: 'rgba(245,232,208,0.6)'}}>
+                                Mariachi Colombia Show ofrece música en vivo profesional en Guadalajara, Zapopan,
+                                Tlaquepaque y Tonalá. Cotiza tu serenata o evento por WhatsApp o llamada y te
+                                confirmamos disponibilidad de inmediato.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                            {[
+                                {
+                                    titulo: 'Serenatas',
+                                    texto: 'Serenatas de mariachi para sorprender a esa persona especial, a cualquier hora, en Guadalajara y alrededores.',
+                                },
+                                {
+                                    titulo: 'Bodas',
+                                    texto: 'Música en vivo para ceremonia y recepción de tu boda, con repertorio romántico y ambiente festivo.',
+                                },
+                                {
+                                    titulo: 'XV Años',
+                                    texto: 'Acompañamos el vals y la fiesta de tus XV años con mariachi en vivo para un evento inolvidable.',
+                                },
+                                {
+                                    titulo: 'Cumpleaños',
+                                    texto: 'Celebra un cumpleaños con las mañanitas y tus canciones favoritas interpretadas en vivo.',
+                                },
+                                {
+                                    titulo: 'Aniversarios',
+                                    texto: 'Festeja tu aniversario de boda o de pareja con un mariachi que ponga la banda sonora perfecta.',
+                                },
+                                {
+                                    titulo: 'Eventos Empresariales',
+                                    texto: 'Música tradicional mexicana para eventos corporativos, posadas y celebraciones de empresa.',
+                                },
+                            ].map((servicio) => (
+                                <div key={servicio.titulo}
+                                     className="p-6 border rounded-lg"
+                                     style={{
+                                         background: 'rgba(201,150,59,0.04)',
+                                         borderColor: 'rgba(201,150,59,0.2)',
+                                     }}>
+                                    <h3 className="font-bold mb-2 tracking-wide"
+                                        style={{fontFamily: "'Cinzel', serif", color: '#C9963B'}}>
+                                        {servicio.titulo}
+                                    </h3>
+                                    <p className="text-sm font-light leading-relaxed"
+                                       style={{color: 'rgba(245,232,208,0.55)'}}>
+                                        {servicio.texto}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="text-center mt-14">
+                            <a
+                                href="https://wa.me/5213339490021?text=Estoy%20interesado%2C%20%C2%BFme%20regalas%20informaci%C3%B3n%3F"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block text-black font-semibold px-10 py-4 hover:scale-105 transition-all"
+                                style={{
+                                    fontFamily: "'Cinzel', serif",
+                                    background: 'linear-gradient(135deg, #C9963B, #8B6914)',
+                                    borderRadius: '2px',
+                                    letterSpacing: '0.05em',
+                                    boxShadow: '0 4px 20px rgba(201,150,59,0.3)'
+                                }}>
+                                Cotizar mi evento por WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
                 {/* ══════════════════════ VIDEOS ══════════════════════ */}
                 <section
                     className="text-white py-20 relative z-30"
@@ -911,7 +1004,7 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                                  style={{background: 'linear-gradient(90deg, rgba(201,150,59,0.4), transparent)'}}/>
                         </div>
 
-                        <div className="grid md:grid-cols-4 gap-10">
+                        <div className="grid md:grid-cols-3 gap-10">
                             {/* Marca */}
                             <div className="md:col-span-2">
                                 <h3 className="text-3xl font-extrabold mb-2 tracking-widest"
@@ -951,49 +1044,6 @@ export default function Mariachi({canciones, imagenes, videos, heroImage}) {
                                     <p>📞 +52 33 3949 0021</p>
                                     <p>📧 contacto@mariachiguadalajara.com</p>
                                     <p>📍 Guadalajara, Jalisco</p>
-                                </div>
-                            </div>
-
-                            {/* Redes */}
-                            <div>
-                                <h4 className="font-bold mb-5 text-base tracking-widest uppercase"
-                                    style={{fontFamily: "'Cinzel', serif", color: '#C9963B'}}>
-                                    Síguenos
-                                </h4>
-                                <div className="flex gap-3">
-                                    <a href="#"
-                                       className="w-11 h-11 rounded flex items-center justify-center transition hover:scale-110 border"
-                                       style={{
-                                           background: 'rgba(24,119,242,0.15)',
-                                           borderColor: 'rgba(24,119,242,0.3)'
-                                       }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor"
-                                             viewBox="0 0 24 24" style={{color: '#4A9EFF'}}>
-                                            <path
-                                                d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07c0 4.99 3.66 9.13 8.44 9.93v-7.02H7.9v-2.9h2.54V9.41c0-2.5 1.5-3.88 3.78-3.88 1.1 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.77l-.44 2.9h-2.33V22c4.78-.8 8.43-4.94 8.43-9.93z"/>
-                                        </svg>
-                                    </a>
-                                    <a href="#"
-                                       className="w-11 h-11 rounded flex items-center justify-center transition hover:scale-110 border"
-                                       style={{
-                                           background: 'rgba(193,53,132,0.15)',
-                                           borderColor: 'rgba(193,53,132,0.3)'
-                                       }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor"
-                                             viewBox="0 0 24 24" style={{color: '#E8629A'}}>
-                                            <path
-                                                d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5A3.75 3.75 0 0120 7.75v8.5A3.75 3.75 0 0116.25 20h-8.5A3.75 3.75 0 014 16.25v-8.5A3.75 3.75 0 017.75 4zm4.25 2.5A5.5 5.5 0 1017.5 12 5.5 5.5 0 0012 6.5zm0 2A3.5 3.5 0 1115.5 12 3.5 3.5 0 0112 8.5z"/>
-                                        </svg>
-                                    </a>
-                                    <a href="#"
-                                       className="w-11 h-11 rounded flex items-center justify-center transition hover:scale-110 border"
-                                       style={{background: 'rgba(255,0,0,0.15)', borderColor: 'rgba(255,0,0,0.3)'}}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor"
-                                             viewBox="0 0 24 24" style={{color: '#FF6B6B'}}>
-                                            <path
-                                                d="M21.8 8.001s-.2-1.4-.8-2.02c-.76-.8-1.6-.8-2-.85C16.2 4.9 12 4.9 12 4.9h-.01s-4.19 0-6.99.23c-.4.05-1.24.05-2 .85-.6.62-.8 2.02-.8 2.02S2 9.7 2 11.4v1.2c0 1.7.2 3.4.2 3.4s.2 1.4.8 2.02c.76.8 1.76.77 2.2.86 1.6.15 6.8.22 6.8.22s4.2-.01 6.99-.24c.4-.05 1.24-.05 2-.85.6-.62.8-2.02.8-2.02s.2-1.7.2-3.4v-1.2c0-1.7-.2-3.4-.2-3.4zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/>
-                                        </svg>
-                                    </a>
                                 </div>
                             </div>
                         </div>
